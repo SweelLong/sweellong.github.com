@@ -28,12 +28,8 @@
         <a href="#menu" class="navPanelToggle"><img src="./images/menu.png"><span class="fa fa-bars"></span></a>
         <section id="banner">
             <h2>SweelLong's Blog</h2>
-            <p>更新这个页面比较麻烦所以不频繁<br>详细的东西都在腾讯文档里</p>
-            <!--<ul class="actions">
-                <li><a onclick="download_1()" class="button special big">前往开源项目</a></li>// 旧版按钮，在main.css里
-                <br>
-                <br>
-                <br>-->
+                <p id="jinrishici-sentence">正在加载诗词....</p>
+                <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
                 <article><div class="project"><div class="case clearfix">
                             <div class="cbox l" style="display:inline-block;text-align:center;">
                                 <div class="c-box c-box5">
@@ -59,10 +55,10 @@
                     <div class="10u 12u$(medium)">
                             <h2 style="text-align:left;">
                                 <strong>
-                                <s><span style="color:#000000">后宫</span></s>
+                                <s><span style="color:#ffffff">后宫</span></s>
                                 <span style="font-family:quot;line-height:1.5;color:#000000">
                                     (个人)QQ群：
-                                    <sup>解散啦！</sup>
+                                    <sup>已解散</sup>
                                     <hr>
                                 </span>
                                 </strong>
@@ -157,42 +153,274 @@
                             </details>
                             <details>
                                 <summary>教程</summary>	
-				<blockquote>
+                                <blockquote>
                                     <details>
-                                        <summary>C#</summary>	
-					    <blockquote>
-                                                <details>
-                                                    <summary>获取其他程序的句柄模拟键盘按键</summary>	
-						    <blockquote>
-							    <p>
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
+                                        <summary>C#</summary>
+                                        <blockquote>
+                                            <details>
+                                                <summary>获取其他程序的句柄模拟键盘按键</summary>
+                                                <pre class="prettyprint lang-cs" style="color:#333333;">
+                                                    using System;
+                                                    using System.Diagnostics;
+                                                    using System.Runtime.InteropServices;
+                                                    using System.Windows.Forms;
+                                                    
+                                                    namespace 命名空间
+                                                    {
+                                                       internal class 项目
+                                                       {
+                                                           [DllImport("user32.dll")]
+                                                           internal static extern int SetForegroundWindow(IntPtr ip);//获取窗口句柄
+                                                           internal static void Main()
+                                                           {
+                                                               Process process = Process.GetProcessById(PID);
+                                                               SetForegroundWindow(process.MainWindowHandle);
+                                                               SendKeys.SendWait("");
+                                                               // ^ = Ctrl
+                                                               // % = Alt
+                                                               // {按键 数字} = 按{按键}{数字}次
+                                                           }
+                                                       }
+                                                    }
+                                                </pre>
+                                            </details>
+                                            <details>
+                                                <summary>内嵌类库(先将需内嵌的类库改为内嵌的资源)</summary>
+                                                <pre class="prettyprint lang-cs" style="color:#333333;">
+                                                    AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+                                                    {
+                                                        string name = "程序的命名空间.文件夹名." + new AssemblyName(args.Name).Name + ".dll";
+                                                        var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name);                
+                                                        byte[] assData = new byte[stream.Length];
+                                                        stream.Read(assData, 0, assData.Length);
+                                                        return Assembly.Load(assData);
+                                                    }; 
 
-namespace 命名空间
-{
-    internal class 项目
-    {
-        [DllImport("user32.dll")]
-        internal static extern int SetForegroundWindow(IntPtr ip);//获取窗口句柄
-        internal static void Main()
-        {
-            Process process = Process.GetProcessById(PID);
-            SetForegroundWindow(process.MainWindowHandle);
-            SendKeys.SendWait("");
-            // ^ = Ctrl
-            // % = Alt
-            // {按键 数字} = 按{按键}{数字}次
-        }
-    }
-}
-							    </p>
-						    </blockquote>
-                                                </details>
-					    </blockquote>
+                                                    <p style="color:#ff0000;">
+                                                        解决WinForm程序未发现resource文件：
+                                                        打开AssemblyInfo.cs文件并加入以下代码
+                                                        [assembly: NeutralResourcesLanguage("zh-CN", UltimateResourceFallbackLocation.MainAssembly)]
+                                                    </p>
+                                            </pre>
+                                            </details>
+                                            <details>
+                                                <summary>提取内嵌的文件</summary>
+                                                <pre class="prettyprint lang-cs" style="color:#333333;">
+                                                    internal class Extract
+                                                    {
+                                                        internal static void File(string fn, string of)
+                                                        {
+                                                            BufferedStream bs = null;
+                                                            FileStream fs = null;
+                                                            try
+                                                            {
+                                                                Assembly a = Assembly.GetExecutingAssembly();
+                                                                bs = new BufferedStream(a.GetManifestResourceStream(fn));
+                                                                fs = new FileStream(of, FileMode.Create, FileAccess.Write);
+                                                                byte[] buffer = new byte[1024];
+                                                                int length;
+                                                                while ((length = bs.Read(buffer, 0, buffer.Length)) > 0)
+                                                                {
+                                                                    fs.Write(buffer, 0, length);
+                                                                }
+                                                                fs.Flush();
+                                                            }
+                                                            finally
+                                                            {
+                                                                if (fs != null)
+                                                                {
+                                                                    fs.Dispose();
+                                                                }
+                                                                if (bs != null)
+                                                                {
+                                                                    bs.Dispose();
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                            </pre>
+                                            </details>
+                                            <details>
+                                                <summary>配置文件的写法</summary>
+                                                <blockquote>
+                                                    <details>
+                                                        <summary>ini配置文件</summary>
+                                                        <p style="color:#ff0000;">
+                                                            需要调用kernel32.dll（但不需要引用）
+                                                            请自行查询百度，此方法不推荐
+                                                        </p>
+                                                    </details>
+                                                    <details>
+                                                        <summary>json配置文件</summary>
+                                                        <pre class="prettyprint lang-cs" style="color:#333333;">
+                                                            <p style="color:#ff0000;">
+                                                                需要调用Newtonsoft.Json.dll（可在VS的NuGet中下载）
+                                                            </p>
+                                                                // 用于读取配置文件 用法：👇
+                                                                // 类名.Read("Json文件的对象名");
+                                                                // {
+                                                                // "对象名":参数 //在json文件中
+                                                                // }
+                                                                internal static dynamic Read(string keywords)
+                                                                {
+                                                                    StreamReader sr = File.OpenText("config.json");
+                                                                    JsonTextReader jtr = new JsonTextReader(sr);
+                                                                    JObject jo = (JObject)JToken.ReadFrom(jtr);
+                                                                    dynamic value = (dynamic)jo[keywords];
+                                                                    sr.Dispose();
+                                                                    return value;
+                                                                }
+                                                                // 用于写入配置文件 用法：👇
+                                                                // 类名.Write("Json文件的对象名", 新参数);
+                                                                // {
+                                                                // "对象名":旧参数 //在json文件中
+                                                                // }
+                                                                internal static void Write(string keywords, dynamic newVaelue)
+                                                                {
+                                                                    string str = File.ReadAllText("config.json");
+                                                                    dynamic jo = JsonConvert.DeserializeObject(str);
+                                                                    jo[keywords] = newVaelue;
+                                                                    File.WriteAllText("config.json", JsonConvert.SerializeObject(jo, Formatting.Indented));
+                                                                }
+                                                                ------------------------------------
+                                                                // 更多方法请查询该库的官方文档
+                                                                // 创建一个“config.json”的文件，写入：
+                                                                {
+                                                                        "对象名一": "字符串",
+                                                                        "对象名二": 0，
+                                                                        "对象名三": false
+                                                                }
+                                                        </pre>
+                                                    </details>
+                                                </blockquote>
+                                            </details>
+                                        </blockquote>
                                     </details>
-				</blockquote>
+                                    <details>
+                                        <summary>常见的联机方式（初二时写的）</summary>
+                                        <blockquote>
+                                            <img src="./images/others/Flowchart_1.png" alt="">
+                                            <details>
+                                                <summary>端口映射</summary>
+                                                <p class="MsoNormal">
+                                                    教程使用IPV4，IPV6可能无法联机
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    先确保拥有公网IP
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    演示的设备：
+                                                </p>
+                                                <p class="MsoNormal" style="margin-left:16.8pt;">
+                                                    &nbsp;光猫WAN口连接路由器WAN口
+                                                </p>
+                                                <p class="MsoNormal" style="margin-left:16.8pt;">
+                                                    &nbsp;路由器LAN口连接计算机
+                                                </p>
+                                                <p class="MsoNormal" style="margin-left:16.8pt;">
+                                                    &nbsp;TP-LINK路由器
+                                                </p>
+                                                <p class="MsoNormal" style="margin-left:16.8pt;">
+                                                    &nbsp;电信光猫
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    开始----------------------------------------------------------------------------------------------------
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    进入路由器管理页面（一般为http://192.168.0.1），可以查看路由器说明书或路由器底部。
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    管理员密码可以尝试1234，123456，admin......也可以键位复原（百度，说明书有教程）
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    获取本机的局域网IP
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    WIN+R输入CMD打开输入ipconfig/all。如:
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    物理地址. . . . . . . . . . . . . : A1-2A-3A-A4-5A-A6
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    IPv4 地址 . . . . . . . . . . . . : 192.168.0.112（首选）
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    IP与MAC绑定，方便以后不需要修改虚拟服务器架设的局域网IP
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    一般IP与MAC映射表都会自动找出你的设备点击+即可
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    添加（路由器都差不多，自己摸索）
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    // 如果你觉得麻烦的话，可以选择跳过这一步&nbsp;&nbsp;&nbsp;
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    设置虚拟服务器，大概是这样
+                                                    <img src="./images/others/Demo_1.png" alt="">
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    那么你的就端口映射成功了
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    创建DDNS域名（固定公网IP可跳过，可以将指定的域名-绑定你那重启就会更换的IP）
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    // 如果你觉得麻烦的话，可以选择跳过这这一步，直接通过公网IP加入
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    创建游戏服务器（下面是开游戏的服务端，内网穿透等通用）
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    打开Steam软件的位置%\steamapps\common\Terraria打开TerrariaServer
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    （tModLoader则打开tModLoaderrServer）
+                                                </p>
+                                                <p class="MsoNormal">
+                                                    服务器启动成功后打开游戏-多人模式-通过IP加入-输入域名（或者IP）后即可加入
+                                                </p>
+                                            </details>
+                                            <details>
+                                                <summary>租用云服务器</summary>
+                                                <pre>
+                                                    以华为云，Windows Server 2019为例，Linux系统找度娘，
+                                                    点击控制台-实例
+                                                    <img src="./images/others/Demo_2.png" alt="">
+                                                    然后配置规则——入站规则——添加规则——端口全部开放或开放7777
+                                                    <img src="./images/others/Demo_3.png" alt="">
+                                                    然后打开Windows系统自带的远程桌面连接
+                                                    <img src="./images/others/Demo_4.png" alt="">
+                                                    <img src="./images/others/Demo_5.png" alt="">
+                                                    密码：控制台设置，更改密码后请重启服务器
+                                                    在服务器中创建一个Terraria的文件夹，放入以下文件
+                                                    <img src="./images/others/Demo_6.png" alt="">
+                                                    安装xnafx40_redist
+                                                    手动创建：文档-MyGames-Terraria-World
+                                                    <img src="./images/others/Demo_7.png" alt="">
+                                                    可放已有的存档或用TerrariaServer新建
+                                                    然后在云服务器内用Terrariaserver开服即可
+                                                    通过IP加入：输入弹性公网IP:7777
+                                                </pre>
+                                            </details>
+                                            <details>
+                                                <summary>内网穿透</summary>
+                                                <pre>
+                                                    内网穿透软件都差不多，大部分是收费的。
+                                                    推荐SakuraFrp，创建隧道完成后，剩余操作与端口映射相同
+                                                </pre>
+                                            </details>
+                                            <details>
+                                                <summary>VPN组网</summary>
+                                                <pre>
+                                                    推荐游侠对战平台，其原理便是组网
+                                                    打开游侠对战平台游戏路径打开你steam上Terraria的路径，steam挂在后台，然后在游侠上点击开始游戏
+                                                </pre>
+                                            </details>
+                                        </blockquote>
+                                    </details>
+                                </blockquote>
                             </details>
                         </div>
                     </span>
@@ -217,7 +445,7 @@ namespace 命名空间
                         <a onclick="window.open(Terraria)"><img src="./images/icons/Terraria.png"></a>
                     </div>
                     <script>// alert("请输入验证码（群号）：", "");
-                        var QQ = "https://jq.qq.com/?_wv=1027&k=ELkI98An";
+                        var QQ = "";
                         var Gitee = "https://gitee.com/sweellong";
                         var Terraria = "https://terraria.org";
                         function Steam()
@@ -264,7 +492,7 @@ namespace 命名空间
                             else if(result == "10")
                             window.open("https://github.com/Shimogawa/ModLoacalizer2");
                             else
-                            window.open("https://github.com");
+                            window.open("https://github.com/SweelLong");
                         }
                     </script>
                 </ul>
