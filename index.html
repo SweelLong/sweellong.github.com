@@ -163,6 +163,32 @@
 					    <blockquote>
                                                 <details>
                                                     <summary>获取其他程序的句柄模拟键盘按键</summary>	
+						    <blockquote>
+							    <p>
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+
+namespace 命名空间
+{
+    internal class 项目
+    {
+        [DllImport("user32.dll")]
+        internal static extern int SetForegroundWindow(IntPtr ip);//获取窗口句柄
+        internal static void Main()
+        {
+            Process process = Process.GetProcessById(PID);
+            SetForegroundWindow(process.MainWindowHandle);
+            SendKeys.SendWait("");
+            // ^ = Ctrl
+            // % = Alt
+            // {按键 数字} = 按{按键}{数字}次
+        }
+    }
+}
+							    </p>
+						    </blockquote>
                                                 </details>
 					    </blockquote>
                                     </details>
