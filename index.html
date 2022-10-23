@@ -22,28 +22,27 @@
             <nav id="nav">
                 <ul>
                     <li><a href="index.html">主页</a></li>
+                    <li><a href="语言文件使用教程.html">语言文件使用教程</a></li>
                 </ul>
             </nav>
         </header>
         <a href="#menu" class="navPanelToggle"><img src="./images/menu.png"><span class="fa fa-bars"></span></a>
         <section id="banner">
             <h2>SweelLong's Blog</h2>
-                <p id="jinrishici-sentence">正在加载诗词....</p>
-                <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-                <article><div class="project"><div class="case clearfix">
+
+                <article>
+                    <div class="project"><div class="case clearfix">
                             <div class="cbox l" style="display:inline-block;text-align:center;">
                                 <div class="c-box c-box5">
-                                    <span onclick="Go()">
-                                        -立即前往-
-                                   </span>
+                                    <span><a href="https://docs.qq.com/doc/DRlppQmlRc2p2QWdH" target="_blank" style="color:#FFFFFF;text-decoration: none;">-立即前往-</a></span>
                                 </div>
                             </div>
-                        </div></div></article>
+                        </div>
+                    </div>
+                </article>
                 <script>
                     function Go() 
                     {
-                        // alert("请输入验证码（群号）：", "");
-                        // var person = prompt("请输入验证码（群号）：", "");
                         window.open("https://docs.qq.com/doc/DRlppQmlRc2p2QWdH");
                     }
                 </script>
@@ -55,12 +54,9 @@
                     <div class="10u 12u$(medium)">
                             <h2 style="text-align:left;">
                                 <strong>
-                                <s><span style="color:#ffffff">后宫</span></s>
-                                <span style="font-family:quot;line-height:1.5;color:#000000">
-                                    (个人)QQ群：
-                                    <sup>已解散</sup>
+                                    <p id="jinrishici-sentence">正在加载诗词....</p>
+                                    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
                                     <hr>
-                                </span>
                                 </strong>
                             </h2>
                             <details>
@@ -117,10 +113,6 @@
                                         营销号生成器<br></a>
                                         <a href="https://littleskin.cn" target="_blank">
                                         我的世界皮肤站<br></a>
-                                        <a href="http://yal.cc/r/terrasavr" target="_blank">
-                                        Terraria人物存档编辑<br></a>
-                                        <a href="http://mirror.sgkoi.dev" target="_blank">
-                                        TML模组浏览器镜像<br></a>
                                         <a href="https://sgkoi.dev/th" target="_blank">
                                         恋恋的博客<br></a>
                                         <a href="https://fs49.org/sample-page" target="_blank">
@@ -149,6 +141,8 @@
                                         修复模糊图片<br></a>
                                         <a href="https://trace.moe" target="_blank">
                                         帮你找动漫<br></a>
+                                        <a href="https://www.soundbug.com/" target="_blank">
+                                        音虫-音乐制作<br></a>
                                 </h4>
                             </details>
                             <details>
@@ -294,6 +288,83 @@
                                                     </details>
                                                 </blockquote>
                                             </details>
+                                            <details>
+                                                <summary>收集目录内含子目录的同一文件格式</summary>
+                                                <pre style="color: #000000;">
+                                                    using System;
+                                                    using System.IO;
+                                                    using System.Text;
+                                                    // The cs file was written by SweelLong
+                                                    // Usage: Download .NetFramework SDK, open the SDK directory, find "csc.exe" and open cs file by it.
+                                                    // the common path:
+                                                    // C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe
+                                                    // Alse you can start cmd or Windows PowerShell and types：
+                                                    // C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe C:\Users\14857\Desktop\MusicCollector.cs
+                                                    // After that you will get the exe file.
+                                                    // August 16th, 2022
+                                                    namespace MusicCollector
+                                                    {
+                                                        public class MainClass
+                                                        {
+                                                            public static string OutputPath;
+                                                    
+                                                            public static StringBuilder AppendText;
+                                                    
+                                                            public static void Main()
+                                                            {
+                                                                AppendText = new StringBuilder();
+                                                                Console.Write("Please types the full path of directory which you wanna collect files: \n>");
+                                                                string InputPath = Console.ReadLine();
+                                                                OutputPath = InputPath + "\\Output";
+                                                                if (!Directory.Exists(OutputPath))
+                                                                {
+                                                                    Directory.CreateDirectory(OutputPath);
+                                                                }
+                                                                /*
+                                                                 The core codes as follows:
+                                                                 */
+                                                                DirectoryInfo  di = new DirectoryInfo(InputPath);
+                                                                GetFiles(di);
+                                                                DirectoryInfo[] dirs = di.GetDirectories();
+                                                                foreach (var dir in dirs)
+                                                                {
+                                                                    if(dir.Name == "Output")
+                                                                    {
+                                                                        continue;
+                                                                    }
+                                                                    GetFiles(dir);
+                                                                }
+                                                                Console.WriteLine("Success!");
+                                                                Console.ReadKey();
+                                                            }
+                                                            
+                                                            public static void GetFiles(DirectoryInfo di)
+                                                            {
+                                                                FileInfo[] files = di.GetFiles();
+                                                                foreach (FileInfo file in files)
+                                                                {
+                                                                    string FullName = file.FullName;
+                                                                    // ogg is a format of Music.
+                                                                    // Which is you wanna get.
+                                                                    if (Path.GetExtension(FullName).Contains("ogg"))
+                                                                    {
+                                                                        try
+                                                                        {
+                                                                            File.Copy(FullName, OutputPath + "\\" + di.Name + ".ogg");
+                                                                        }
+                                                                        catch
+                                                                        {
+                                                                            AppendText.Append("New");
+                                                                            File.Copy(FullName, OutputPath + "\\" + di.Name + AppendText.ToString() + ".ogg");
+                                                                        }
+                                                                        Console.WriteLine("input: " + FullName);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                </pre>
+                                            </details>
                                         </blockquote>
                                     </details>
                                     <details>
@@ -420,6 +491,16 @@
                                             </details>
                                         </blockquote>
                                     </details>
+                                    <details>
+                                        <summary>解决VS-Git的相关问题</summary>
+                                        <pre>
+                                            <strong>《1.解决拉取-提取失败的问题》</strong>
+                                            <img src="./images/others/Solution_1.png" alt="">
+                                            <hr>
+                                            <strong>《2.解决推送失败的问题》</strong>
+                                            <img src="./images/others/Solution_2.png" alt="">
+                                        </pre>
+                                    </details>
                                 </blockquote>
                             </details>
                         </div>
@@ -434,65 +515,53 @@
             <div class="container">
                 <ul class="icons">
                     <div><!--较短图标网站--><!--64px 64px-->
-                        <a onclick="window.open(QQ)"><img src="./images/icons/QQ.png"></a>
-                        <a onclick="Steam()"><img src="./images/icons/Steam.png"></a>
-                        <a onclick="window.open(Gitee)"><img src="./images/icons/Gitee.png"></a>
+                        <a onclick="QQ()"><img src="./images/icons/QQ.png"></a>
+                        <a href="https://store.steampowered.com" target="_blank" ><img src="./images/icons/Steam.png"></a>
+                        <a href="https://gitee.com/sweellong" target="_blank" ><img src="./images/icons/Gitee.png"></a>
                         <a onclick="Github()"><img src="./images/icons/Github.png"></a>
                     </div>
                     <br>
                     <div><!--较长图标网站--><!--高50px-->
-                        <a onclick="百度贴吧()"><img src="./images/icons/百度贴吧.png"></a>
-                        <a onclick="window.open(Terraria)"><img src="./images/icons/Terraria.png"></a>
+                        <a href="https://tieba.baidu.com" target="_blank" ><img src="./images/icons/百度贴吧.png"></a>
+                        <a href="https://terraria.org" target="_blank" ><img src="./images/icons/Terraria.png"></a>
                     </div>
-                    <script>// alert("请输入验证码（群号）：", "");
-                        var QQ = "";
-                        var Gitee = "https://gitee.com/sweellong";
-                        var Terraria = "https://terraria.org";
-                        function Steam()
+                    <script>
+                        function QQ()
                         {
-                            var result = prompt("请选择数字(将跳转至对应的Steam商店)：\n1.Terraria\n2.tModLoader\n3.Steam", "");
-                            if(result == "1")
-                            window.open("https://store.steampowered.com/app/105600/Terraria");
-                            else if(result == "2")
-                            window.open("https://store.steampowered.com/app/1281930/tModLoader");
-                            else
-                            window.open("https://store.steampowered.com");
-                        }
-                        function 百度贴吧()
-                        {
-                            var result = prompt("请选择数字(将跳转至对应的吧)：\n1.Terraria吧\n2.泰拉瑞亚mod吧\n3.百度贴吧", "");
-                            if(result == "1")
-                            window.open("https://tieba.baidu.com/f?kw=terraria");
-                            else if(result == "2")
-                            window.open("https://tieba.baidu.com/f?kw=泰拉瑞亚mod");
-                            else
-                            window.open("https://tieba.baidu.com");
+                            alert("目前已经暂时移除");
                         }
                         function Github()
                         {
-                            var result = prompt("请选择数字(将跳转至对应的Github仓库)：\n1.tModLoader(泰拉瑞亚模组加载器)\n2.Terraria-Map-Editor(泰拉瑞亚地图编辑器)\n3.TShock(泰拉瑞亚插件开服端)\n4.ILSpy(反编译)\n5.Cloudreve(搭建私有网盘)\n6.frp(内网穿透)\n7.ngrok(内网穿透)\n8.HMCL(我的世界启动器)\n9.dnSpy(反编译)\n10.ModLoacalizer2\n11.Github(官网)", "");
-                            if(result == "1")
-                            window.open("https://github.com/tModLoader/tModLoader");
-                            else if(result == "2")
-                            window.open("https://github.com/TEdit/Terraria-Map-Editor");
-                            else if(result == "3")
-                            window.open("https://github.com/Pryaxis/TShock");
-                            else if(result == "4")
-                            window.open("https://github.com/icsharpcode/ILSpy");
-                            else if(result == "5")
-                            window.open("https://github.com/cloudreve/Cloudreve");
-                            else if(result == "6")
-                            window.open("https://github.com/fatedier/frp");
-                            else if(result == "7")
-                            window.open("https://github.com/inconshreveable/ngrok");
-                            else if(result == "8")
-                            window.open("https://github.com/huanghongxun/HMCL");
-                            else if(result == "9")
-                            window.open("https://github.com/dnSpy/dnSpy");
-                            else if(result == "10")
-                            window.open("https://github.com/Shimogawa/ModLoacalizer2");
+                            alert("即将前往SweelLong的个人主页");
+                            var q = confirm("是否更换其他推荐仓库？");
+                            if(q == true)
+                            {
+                                var result = prompt("请选择数字(将跳转至对应的Github仓库)：\n1.tModLoader(泰拉瑞亚模组加载器)\n2.Terraria-Map-Editor(泰拉瑞亚地图编辑器)\n3.TShock(泰拉瑞亚插件开服端)\n4.ILSpy(反编译)\n5.Cloudreve(搭建私有网盘)\n6.frp(内网穿透)\n7.ngrok(内网穿透)\n8.HMCL(我的世界启动器)\n9.dnSpy(反编译)\n10.ModLoacalizer2", "");
+                                if(result == "1")
+                                    window.open("https://github.com/tModLoader/tModLoader");
+                                else if(result == "2")
+                                    window.open("https://github.com/TEdit/Terraria-Map-Editor");
+                                else if(result == "3")
+                                    window.open("https://github.com/Pryaxis/TShock");
+                                else if(result == "4")
+                                    window.open("https://github.com/icsharpcode/ILSpy");
+                                else if(result == "5")
+                                    window.open("https://github.com/cloudreve/Cloudreve");
+                                else if(result == "6")
+                                    window.open("https://github.com/fatedier/frp");
+                                else if(result == "7")
+                                    window.open("https://github.com/inconshreveable/ngrok");
+                                else if(result == "8")
+                                    window.open("https://github.com/huanghongxun/HMCL");
+                                else if(result == "9")
+                                    window.open("https://github.com/dnSpy/dnSpy");
+                                else if(result == "10")
+                                    window.open("https://github.com/Shimogawa/ModLoacalizer2");
+                            }
                             else
-                            window.open("https://github.com/SweelLong");
+                            {
+                                window.open("https://github.com/SweelLong");
+                            }
                         }
                     </script>
                 </ul>
