@@ -30,9 +30,12 @@
         </header>
         <a href="#menu" class="navPanelToggle"><img src="./images/menu.png"><span class="fa fa-bars"></span></a>
         <section id="banner">
+            <script>
+                var link = Math.ceil(Math.random()*20)
+                document.getElementById("banner").style="background-image: url('images/overlay.png'), url('images/background/"+link+".jpg')";
+            </script>
             <h2>SweelLong's Blog</h2>
             <p>tModLoader Mod 长期开发项目（Gitee开源） —— InterspaceMod</p>
-            <a href=""></a>
             <article>
                 <div class="project"><div class="case clearfix">
                         <div class="cbox l" style="display:inline-block;text-align:center;">

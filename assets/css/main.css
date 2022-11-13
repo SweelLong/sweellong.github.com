@@ -3011,7 +3011,7 @@
 
 	#banner {
 		padding: 16em 0 20em 0;/*背景高*/
-		background-image: url("../../images/overlay.png"), url("../../images/background.png");
+		/*background-image: url("../../images/overlay.png"), url("https://www.dmoe.cc/random.php");*/
 		background-position: center top;
 		background-size: cover;
 		line-height: 1.75;
