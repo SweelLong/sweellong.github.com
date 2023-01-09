@@ -1,0 +1,40 @@
+<html>
+    <body>
+        <div>
+            <strong>
+                <a>欢迎来到主页！</a>
+            </strong>
+            <pre>
+                上传教程：（可以通过Issues或Pull ）
+                方法一：打开Github仓库的提问：https://github.com/SweelLong/sweellong.github.com/issues
+                New issue中放入语言包的下载链接即可
+                请备注模组名
+                方法二：
+                登录Github
+                打开仓库页面：https://github.com/SweelLong/sweellong.github.com
+                右上角Fork该仓库
+                打开个人主页https://github.com/你的GitHub名
+                选择Fork的仓库，用git到本地桌面
+                git clone https://github.com/你的GitHub名/sweellong.github.com
+                在locPacks文件夹内放置语言包
+                包名格式：模组名非显示名_序号从0开始*.loc文件 如 HEROsMod_0.loc
+                git add .
+                git commit -m "new pack"
+                git push
+                然后仓库页面：https://github.com/SweelLong/sweellong.github.com选择Pull requests 绿色的按钮点一下即可上传
+            </pre>
+        </div>
+        <div>
+            <input type="button" value="查看语言包" onclick="CapacityChart();"> 
+        </div>
+        <div>
+
+        </div>
+        <script>
+            function CapacityChart()
+            {
+                window.open("https://github.com/SweelLong/sweellong.github.com/tree/main/locPacks");
+            }
+        </script>
+    </body>
+</html>
