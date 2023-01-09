@@ -2,7 +2,7 @@
     <body>
         <div>
             <strong>
-                <a>欢迎来到主页！</a>
+                <a>欢迎来到语言包下载站！————模组调用下载语言包的站点</a>
             </strong>
             <pre>
                 上传教程：（可以通过Issues或Pull requests）
@@ -25,15 +25,21 @@
             </pre>
         </div>
         <div>
-            <input type="button" value="查看语言包" onclick="CapacityChart();"> 
+            <input type="button" value="查看语言包" onclick="ViewPacks();"> 
+            <br>
+            <input type="button" value="在Steam创意工坊中下载语言包" onclick="SearchInSteamWorkShop();"> 
         </div>
         <div>
 
         </div>
         <script>
-            function CapacityChart()
+            function ViewPacks()
             {
                 window.open("https://github.com/SweelLong/sweellong.github.com/tree/main/locPacks");
+            }
+            function SearchInSteamWorkShop()
+            {
+                window.open("https://steamcommunity.com/workshop/browse/?appid=1281930&searchtext=%E6%B1%89%E5%8C%96");
             }
         </script>
     </body>
